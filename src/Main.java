@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException, ParseException {
@@ -58,15 +59,34 @@ public class Main {
         System.out.println("name: " + ob.get("name") + "\n" + "age: " + ob.get("age"));
     }
 
-    static void fetchJSONFromApi() throws IOException {
+    static void fetchJSONFromApi() throws IOException, ParseException {
         //spara url till api
         URL url = new URL("https://api.wheretheiss.at/v1/satellites/?id=25544");
 
+        //sätta upp HTTP request
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.connect();
         if(conn.getResponseCode() == 200) {
             System.out.println("Koppling lyckades ");
+
+            //skapa StrBuilder och scan object
+            StringBuilder strData = new StringBuilder();
+            Scanner scanner = new Scanner(url.openStream());
+
+            //
+            while (scanner.hasNext()) {
+                strData.append(scanner.nextLine());
+            }
+            //stäng kopplingen när den har läst klart
+            scanner.close();
+            JSONObject dataObject = (JSONObject) new JSONParser().parse(String.valueOf(strData));
+            System.out.println(dataObject);
+            System.out.println("-------------");
+            System.out.println(dataObject.get("latitude"));
+            System.out.println(dataObject.get("name"));
+            System.out.println(dataObject.get("timestamp"));
+            System.out.println("-------------");
         } else {
             System.out.println("koppling misslyckades");
         }
