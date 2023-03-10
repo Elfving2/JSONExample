@@ -85,7 +85,7 @@ public class Main {
             JSONObject dataObject = (JSONObject) new JSONParser().parse(String.valueOf(strData));
 
             System.out.println(dataObject.values());
-            System.out.println("H------H");
+            //loop through both key and value
             for(Object key: dataObject.keySet()) {
                 Object value = dataObject.get(key);
                 System.out.println(key + " = " + value);
