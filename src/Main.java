@@ -80,13 +80,20 @@ public class Main {
             }
             //stäng kopplingen när den har läst klart
             scanner.close();
+
+            //skapa JSONObject av fetched data
             JSONObject dataObject = (JSONObject) new JSONParser().parse(String.valueOf(strData));
-            System.out.println(dataObject);
-            System.out.println("-------------");
-            System.out.println(dataObject.get("latitude"));
-            System.out.println(dataObject.get("name"));
-            System.out.println(dataObject.get("timestamp"));
-            System.out.println("-------------");
+
+            System.out.println(dataObject.values());
+            System.out.println("H------H");
+            for(Object key: dataObject.keySet()) {
+                Object value = dataObject.get(key);
+                System.out.println(key + " = " + value);
+
+            }
+//            System.out.println(dataObject.get("latitude"));
+//            System.out.println(dataObject.get("name"));
+//            System.out.println(dataObject.get("timestamp"));
         } else {
             System.out.println("koppling misslyckades");
         }
